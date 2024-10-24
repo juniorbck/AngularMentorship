@@ -3,4 +3,36 @@
       <p class="lead">[Making your Life Easier!]</p>
   </div>
   <h1 editable="inline" class="display-4">Discovering the World!</h1>
+
+  <div class="container-fluid">
+    <div class="row"> 
+      <div class="col-lg-3 col-md-5 col-sm-6 col-xs-6"
+      *ngFor="let location of locations; let i = index">
+      <div class="card ratio ratio-4x3 bg-dark text-white img-fluid">
+        <img class="card-img" style="object-fit: fill; filter:brightness(40%)" src="{{ location.url }}"  alt="Card image">
+        <div class="card-img-overlay text-start align-bottom">
+          <h5 class="card-text text-truncate align-bottom">{{ location.title }}</h5>
+          <p class="card-text align-bottom">{{ location.category }}</p>
+          <p class="card-text text-truncate align-bottom">{{ location.description }}</p>
+          <div class="card-footer text-end">
+            <button 
+              class="btn btn-primary mx-1" 
+              title="Edit location"
+              >
+              <i class="bi bi-pencil"></i>
+            </button>
+
+            <button 
+              class="btn btn-danger mx-1" 
+              title="Delete location"
+              >
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+        <img  class="">
+      </div></div></div>
+
 </div>
