@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
   title = 'AngularMentorship';
   locations: Locations[] = [];
   categories: string[] = [];
+  categorySelected?: string;
 
   modalRef?: BsModalRef;
   fb: FormBuilder = new FormBuilder();
@@ -37,6 +38,29 @@ export class AppComponent implements OnInit {
   });
 
   constructor(private modalService: BsModalService) {}
+
+  ngOnInit(): void {
+    this.locations = LocationsData;
+    this.categories = CategoriesData;
+    this.categorySelected = "All";
+  }
+
+  locationsFiltered() {
+    if (this.categorySelected === "All") {
+      return this.locations;
+    }
+    return this.locations.filter((location)=>{
+      return location.category === this.categorySelected;
+    });
+  }
+
+  categoryButtons() {
+    return ["All", ...this.categories]
+  }
+
+  setCategorySelected(category: string) {
+    this.categorySelected = category;
+  }
 
   openModal(template: TemplateRef<any>, location?: Locations) {
     if (location != null) {
@@ -90,20 +114,15 @@ export class AppComponent implements OnInit {
   }
 
   deleteLocation(index: number) {
-    if(confirm("Are you sure you want to delete this location?")) { 
-      const location: Locations = this.locations[index];
-  
-      if(location != null) {
-        this.locations.splice(index, 1);
-      }
-      else {
-        alert("Location not found");
-      }
+    const location: Locations = this.locations[index];
+
+    if(location != null) {
+      this.locations.splice(index, 1);
+      this.locationsFiltered();
+    }
+    else {
+      alert("Location not found");
     }
   }
 
-  ngOnInit(): void {
-    this.locations = LocationsData;
-    this.categories = CategoriesData;
-  }
 }

@@ -1,10 +1,9 @@
 <div class="py-5 bg-transparent text-center w-100">
-
   <!-- Header Start-->
   <header>
-  <div editable="rich">
-    <p class="lead">[Making your Life Easier!]</p>
-  </div>
+    <div editable="rich">
+      <p class="lead">[Making your Life Easier!]</p>
+    </div>
     <h1 editable="inline" class="display-4">Discovering the World!</h1>
 
     <!-- Add New Location Start-->
@@ -24,13 +23,20 @@
       <div
         class="py-5 btn-group"
         role="group"
-        *ngFor="let category of categories; let i = index"
+        *ngFor="let category of categoryButtons(); let i = index"
       >
-        <button type="button" class="btn btn-secondary">{{ category }}</button>
+        <button
+          type="button"
+          class="btn m-1 {{
+            categorySelected === category ? 'btn-primary' : 'btn-outline-secondary'
+          }}"
+          (click)="setCategorySelected(category)"
+        >
+          {{ category }}
+        </button>
       </div>
     </div>
     <!-- Category Buttons End -->
-
   </header>
   <!-- Header End -->
 
@@ -39,12 +45,10 @@
     <div class="row">
       <div
         class="col-lg-4 col-md-4.5 col-sm-6 col-xs-6"
-        *ngFor="let location of locations; let i = index"
+        *ngFor="let location of locationsFiltered(); let i = index"
       >
-
         <!-- Card Start -->
         <div class="card ratio ratio-4x3 bg-dark text-white img-fluid">
-
           <!-- Card Image Start -->
           <img
             class="card-img"
@@ -84,10 +88,8 @@
               </button>
             </div>
             <!-- Card Buttons End -->
-
           </div>
           <!-- Card Content End -->
-
         </div>
         <img class="" />
         <!-- Card End -->
@@ -158,7 +160,13 @@
         class="form-control my-2"
       ></textarea>
 
-      <button title="{{ form.value.id != null ? 'Edit Location' : 'Add New Location' }}" class="btn btn-primary" type="submit">
+      <button
+        title="{{
+          form.value.id != null ? 'Edit Location' : 'Add New Location'
+        }}"
+        class="btn btn-primary"
+        type="submit"
+      >
         {{ form.value.id != null ? "Edit Location" : "Add New Location" }}
       </button>
     </form>
