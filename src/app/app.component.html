@@ -4,13 +4,15 @@
   </div>
   <h1 editable="inline" class="display-4">Discovering the World!</h1>
 
-  <div class="d-flex flex-row-reverse"><button 
-    class="btn btn-primary mx-1" 
-    title="Add Location"
-    (click)="openModal(template)"
+  <div class="d-flex flex-row-reverse">
+    <button
+      class="btn btn-primary mx-1"
+      title="Add Location"
+      (click)="openModal(template)"
     >
-    <i class="bi bi-plus"></i> Add location
-   </button></div>
+      <i class="bi bi-plus"></i> Add New location
+    </button>
+  </div>
   <div>
     <div
       class="py-5 btn-group"
@@ -20,8 +22,6 @@
       <button type="button" class="btn btn-secondary">{{ category }}</button>
     </div>
   </div>
-
- 
 
   <div class="container-fluid">
     <div class="row">
@@ -47,28 +47,32 @@
               {{ location.description }}
             </div>
             <div class="card-footer text-end">
-              <button class="btn btn-primary mx-1" title="Edit location">
+              <button
+                class="btn btn-primary mx-1"
+                title="Edit location"
+                (click)="openModal(template, location)"
+              >
                 <i class="bi bi-pencil"></i>
               </button>
 
-              <button class="btn btn-danger mx-1" title="Delete location">
+              <button class="btn btn-danger mx-1" title="Delete location"
+              (click)="deleteLocation(i)">
                 <i class="bi bi-trash"></i>
               </button>
             </div>
           </div>
         </div>
-
         <img class="" />
       </div>
     </div>
   </div>
 </div>
 
-
-
 <ng-template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Add New Location</h4>
+    <h4 class="modal-title pull-left">
+      {{ form.value.id != null ? "Edit Location" : "Add New Location" }}
+    </h4>
 
     <button
       type="button"
@@ -80,38 +84,39 @@
     </button>
   </div>
   <div class="modal-body">
-    <form action="#">
+    <form [formGroup]="form" (ngSubmit)="updateLocation()">
       <input
         type="text"
         title="Title"
         placeholder="Title"
+        formControlName="title"
         class="form-control my-2"
       />
-
       <input
         type="text"
         title="Description"
         placeholder="Description"
+        formControlName="description"
         class="form-control my-2"
       />
-
-      <input
+      <select
         type="select"
         title="Category"
-        placeholder="Category"
+        formControlName="category"
         class="form-control my-2"
-      />
-
-
-      <input
-        type="select"
+      >
+      <option value="" disabled selected>Category</option>
+      <option *ngFor="let category of categories" [value]="category" >{{category}}</option>
+      </select>
+      <textarea
         title="url"
         placeholder="url"
+        formControlName="url"
         class="form-control my-2"
-      />
+      ></textarea>
 
       <button title="Add New Location" class="btn btn-primary" type="submit">
-        Add New Location
+        {{ form.value.id != null ? "Edit Location" : "Add New Location" }}
       </button>
     </form>
   </div>
