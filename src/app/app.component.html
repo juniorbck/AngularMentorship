@@ -1,41 +1,60 @@
 <div class="py-5 bg-transparent text-center w-100">
+
+  <!-- Header Start-->
+  <header>
   <div editable="rich">
     <p class="lead">[Making your Life Easier!]</p>
   </div>
-  <h1 editable="inline" class="display-4">Discovering the World!</h1>
+    <h1 editable="inline" class="display-4">Discovering the World!</h1>
 
-  <div class="d-flex flex-row-reverse">
-    <button
-      class="btn btn-primary mx-1"
-      title="Add Location"
-      (click)="openModal(template)"
-    >
-      <i class="bi bi-plus"></i> Add New location
-    </button>
-  </div>
-  <div>
-    <div
-      class="py-5 btn-group"
-      role="group"
-      *ngFor="let category of categories; let i = index"
-    >
-      <button type="button" class="btn btn-secondary">{{ category }}</button>
+    <!-- Add New Location Start-->
+    <div class="d-flex flex-row-reverse">
+      <button
+        class="btn btn-primary mx-1"
+        title="Add New Location"
+        (click)="openModal(template)"
+      >
+        <i class="bi bi-plus"></i> Add New location
+      </button>
     </div>
-  </div>
+    <!-- Add New Location End -->
 
+    <!-- Category Buttons Start -->
+    <div>
+      <div
+        class="py-5 btn-group"
+        role="group"
+        *ngFor="let category of categories; let i = index"
+      >
+        <button type="button" class="btn btn-secondary">{{ category }}</button>
+      </div>
+    </div>
+    <!-- Category Buttons End -->
+
+  </header>
+  <!-- Header End -->
+
+  <!-- Location Cards Start -->
   <div class="container-fluid">
     <div class="row">
       <div
         class="col-lg-4 col-md-4.5 col-sm-6 col-xs-6"
         *ngFor="let location of locations; let i = index"
       >
+
+        <!-- Card Start -->
         <div class="card ratio ratio-4x3 bg-dark text-white img-fluid">
+
+          <!-- Card Image Start -->
           <img
             class="card-img"
             style="object-fit: fill; filter: brightness(40%)"
             src="{{ location.url }}"
             alt="Card image"
           />
+          <!-- Card Image End -->
+
+          <!-- Card Content Start -->
           <div
             class="card-img-overlay d-flex flex-column flex-align-end text-start"
           >
@@ -46,6 +65,8 @@
             <div class="card-text text-truncate">
               {{ location.description }}
             </div>
+
+            <!-- Card Buttons Start -->
             <div class="card-footer text-end">
               <button
                 class="btn btn-primary mx-1"
@@ -54,20 +75,29 @@
               >
                 <i class="bi bi-pencil"></i>
               </button>
-
-              <button class="btn btn-danger mx-1" title="Delete location"
-              (click)="deleteLocation(i)">
+              <button
+                class="btn btn-danger mx-1"
+                title="Delete location"
+                (click)="deleteLocation(i)"
+              >
                 <i class="bi bi-trash"></i>
               </button>
             </div>
+            <!-- Card Buttons End -->
+
           </div>
+          <!-- Card Content End -->
+
         </div>
         <img class="" />
+        <!-- Card End -->
       </div>
     </div>
   </div>
 </div>
+<!-- Location Cards End -->
 
+<!-- Location Form Template Start -->
 <ng-template #template>
   <div class="modal-header">
     <h4 class="modal-title pull-left">
@@ -85,39 +115,53 @@
   </div>
   <div class="modal-body">
     <form [formGroup]="form" (ngSubmit)="updateLocation()">
+      <label for="Title">Title: </label>
       <input
         type="text"
+        id="Title"
         title="Title"
         placeholder="Title"
         formControlName="title"
         class="form-control my-2"
       />
+
+      <label for="Description">Description: </label>
       <input
         type="text"
+        id="Description"
         title="Description"
         placeholder="Description"
         formControlName="description"
         class="form-control my-2"
       />
+
+      <label for="Category">Category: </label>
       <select
         type="select"
+        id="Category"
         title="Category"
         formControlName="category"
         class="form-control my-2"
       >
-      <option value="" disabled selected>Category</option>
-      <option *ngFor="let category of categories" [value]="category" >{{category}}</option>
+        <option value="" disabled selected>Category</option>
+        <option *ngFor="let category of categories" [value]="category">
+          {{ category }}
+        </option>
       </select>
+
+      <label for="url">url: </label>
       <textarea
+        id="url"
         title="url"
         placeholder="url"
         formControlName="url"
         class="form-control my-2"
       ></textarea>
 
-      <button title="Add New Location" class="btn btn-primary" type="submit">
+      <button title="{{ form.value.id != null ? 'Edit Location' : 'Add New Location' }}" class="btn btn-primary" type="submit">
         {{ form.value.id != null ? "Edit Location" : "Add New Location" }}
       </button>
     </form>
   </div>
 </ng-template>
+<!-- Location Form Template End -->
