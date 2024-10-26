@@ -21,7 +21,7 @@
     <!-- Category Buttons Start -->
     <div>
       <div
-        class="py-5 btn-group"
+        class="py-3 btn-group"
         role="group"
         *ngFor="let category of categoryButtons(); let i = index"
       >
@@ -32,7 +32,7 @@
           }}"
           (click)="setCategorySelected(category)"
         >
-          {{ category }}
+          {{ category }} : {{ counters[category.toLowerCase()]}}
         </button>
       </div>
     </div>
@@ -45,7 +45,7 @@
     <div class="row">
       <div
         class="col-lg-4 col-md-4.5 col-sm-6 col-xs-6"
-        *ngFor="let location of locationsFiltered(); let i = index"
+        *ngFor="let location of locationsFiltered; let i = index"
       >
         <!-- Card Start -->
         <div class="card ratio ratio-4x3 bg-dark text-white img-fluid">
@@ -71,28 +71,27 @@
             </div>
 
             <!-- Card Buttons Start -->
-            <div class="card-footer text-end">
-              <button
-                class="btn btn-primary mx-1"
-                title="Edit location"
-                (click)="openModal(template, location)"
-              >
+            <div class="d-flex flex-row-reverse card-footer text-end">
+              <button class="btn btn-primary mx-1" 
+                title="Edit location" 
+                (click)="openModal(template, location)">
                 <i class="bi bi-pencil"></i>
               </button>
-              <button
-                class="btn btn-danger mx-1"
-                title="Delete location"
-                (click)="deleteLocation(i)"
-              >
+              <button class="btn btn-danger mx-1" 
+                title="Delete location" 
+                (click)="deleteLocation(location)">
                 <i class="bi bi-trash"></i>
-              </button>
+              </button> 
             </div>
             <!-- Card Buttons End -->
+
           </div>
           <!-- Card Content End -->
+
         </div>
         <img class="" />
         <!-- Card End -->
+
       </div>
     </div>
   </div>
@@ -160,15 +159,25 @@
         class="form-control my-2"
       ></textarea>
 
+      <div class="d-flex flex-row-reverse card-footer text-end">
+
       <button
-        title="{{
-          form.value.id != null ? 'Edit Location' : 'Add New Location'
-        }}"
-        class="btn btn-primary"
+        title="Save"
+        class="btn btn-primary m-1"
         type="submit"
+        [disabled]="!form.valid"
       >
-        {{ form.value.id != null ? "Edit Location" : "Add New Location" }}
+        Save
       </button>
+
+      <button
+        title="Cancel"
+        class="btn btn-outline-secondary m-1"
+        (click)="modalRef?.hide()"
+      >
+        Cancel
+      </button>
+      </div>
     </form>
   </div>
 </ng-template>

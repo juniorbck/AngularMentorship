@@ -24,6 +24,31 @@ import { CategoriesData } from './data/locations/CategoriesData';
 export class AppComponent implements OnInit {
   title = 'AngularMentorship';
   locations: Locations[] = [];
+
+  get locationsFiltered() {
+    if (this.categorySelected === 'All') {
+      return this.locations;
+    }
+    return this.locations.filter((location: Locations) => {
+      return location.category === this.categorySelected;
+    });
+  }
+
+  get counters() {
+    return this.categories.reduce(
+      (accumulator: any, category: string) => {
+        console.log(accumulator);
+        accumulator[category.toLowerCase()] = this.locations.filter(
+          (location: Locations) => {
+            return location.category === category;
+          }
+        ).length;
+        return accumulator;
+      },
+      { all: this.locations.length }
+    );
+  }
+
   categories: string[] = [];
   categorySelected?: string;
 
@@ -42,20 +67,11 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.locations = LocationsData;
     this.categories = CategoriesData;
-    this.categorySelected = "All";
-  }
-
-  locationsFiltered() {
-    if (this.categorySelected === "All") {
-      return this.locations;
-    }
-    return this.locations.filter((location)=>{
-      return location.category === this.categorySelected;
-    });
+    this.categorySelected = 'All';
   }
 
   categoryButtons() {
-    return ["All", ...this.categories]
+    return ['All', ...this.categories];
   }
 
   setCategorySelected(category: string) {
@@ -113,16 +129,12 @@ export class AppComponent implements OnInit {
     }
   }
 
-  deleteLocation(index: number) {
-    const location: Locations = this.locations[index];
-
-    if(location != null) {
+  deleteLocation(location: Locations) {
+    if (location != null) {
+      const index = this.locations.indexOf(location);
       this.locations.splice(index, 1);
-      this.locationsFiltered();
-    }
-    else {
-      alert("Location not found");
+    } else {
+      alert('Location not found');
     }
   }
-
 }
